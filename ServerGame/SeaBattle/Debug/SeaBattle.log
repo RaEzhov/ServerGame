@@ -1,0 +1,12 @@
+﻿  Source.cpp
+C:\Users\lutsi\ServerGame\ServerGame\SeaBattle\Source.cpp(59,27): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\lutsi\ServerGame\ServerGame\SeaBattle\Source.cpp(62,31): warning C4309: =: усечение константного значения
+C:\Users\lutsi\ServerGame\ServerGame\SeaBattle\Source.cpp(65,31): warning C4309: =: усечение константного значения
+C:\Users\lutsi\ServerGame\ServerGame\SeaBattle\Source.cpp(68,31): warning C4309: =: усечение константного значения
+C:\Users\lutsi\ServerGame\ServerGame\SeaBattle\Source.cpp(74,31): warning C4309: =: усечение константного значения
+C:\Users\lutsi\ServerGame\ServerGame\SeaBattle\Source.cpp(77,31): warning C4309: =: усечение константного значения
+C:\Users\lutsi\ServerGame\ServerGame\SeaBattle\Source.cpp(80,31): warning C4309: =: усечение константного значения
+C:\Users\lutsi\ServerGame\ServerGame\SeaBattle\Source.cpp(83,31): warning C4309: =: усечение константного значения
+C:\Users\lutsi\ServerGame\ServerGame\SeaBattle\Source.cpp(86,31): warning C4309: =: усечение константного значения
+C:\Users\lutsi\ServerGame\ServerGame\SeaBattle\Source.cpp(89,31): warning C4309: =: усечение константного значения
+  SeaBattle.vcxproj -> C:\Users\lutsi\ServerGame\ServerGame\Debug\SeaBattle.exe
