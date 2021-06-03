@@ -7,8 +7,9 @@
 #include <stdio.h>
 #include <time.h>
 #include <stdlib.h>
+#include "Registration.h"
 
-void SendData2Server(int count, int number)
+void SendData2Server(int clientId, char* data)
 {
 	SOCKET client;
 	client = socket(AF_INET, SOCK_STREAM, IPPROTO_IP);
@@ -28,7 +29,8 @@ void SendData2Server(int count, int number)
 		return;
 	}
 	char message[1024];
-	sprintf(message, "<%d client> %s %d", number, "test", count);
+	sprintf(message, "<clientId: %d> %s", clientId, data);
+
 	int ret = send(client, message, strlen(message), 0);
 	if (ret == SOCKET_ERROR)
 	{
@@ -70,15 +72,25 @@ int main()
 		printf("Can't connect to socket lib");
 		return 1;
 	}
-	int i = 0;
-	srand(time(0));
-	rand();
-	int number = rand();
-	while (i < 1000)
-	{
-		SendData2Server(++i, number);
-		Sleep(rand() % 10);
+	srand(time(NULL));
+	int id = rand() % 10000;
+	char isRegistered = {0};
+	while (1) {
+		printf("Are you registered?(Y/N)");
+		scanf("%c",&isRegistered);
+		if (isRegistered == 'Y') {
+			login(id);
+			break;
+		}
+		else if (isRegistered == 'N') {
+			registration(id);
+			break;
+		}
+		else {
+			printf("Invalid character, try again\n");
+		}
 	}
+	Sleep(rand() % 10);
 	printf("Session is closed\n");
 	Sleep(1000);
 	return 0;
