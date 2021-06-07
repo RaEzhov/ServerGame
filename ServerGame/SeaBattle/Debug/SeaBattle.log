@@ -1,14 +1,20 @@
 ﻿  Source.cpp
-C:\Users\lutsi\ServerGame\ServerGame\SeaBattle\Source.cpp(189,27): warning C4018: <: несоответствие типов со знаком и без знака
-C:\Users\lutsi\ServerGame\ServerGame\SeaBattle\Source.cpp(192,31): warning C4309: =: усечение константного значения
-C:\Users\lutsi\ServerGame\ServerGame\SeaBattle\Source.cpp(195,31): warning C4309: =: усечение константного значения
-C:\Users\lutsi\ServerGame\ServerGame\SeaBattle\Source.cpp(198,31): warning C4309: =: усечение константного значения
-C:\Users\lutsi\ServerGame\ServerGame\SeaBattle\Source.cpp(204,31): warning C4309: =: усечение константного значения
-C:\Users\lutsi\ServerGame\ServerGame\SeaBattle\Source.cpp(207,31): warning C4309: =: усечение константного значения
-C:\Users\lutsi\ServerGame\ServerGame\SeaBattle\Source.cpp(210,31): warning C4309: =: усечение константного значения
-C:\Users\lutsi\ServerGame\ServerGame\SeaBattle\Source.cpp(213,31): warning C4309: =: усечение константного значения
-C:\Users\lutsi\ServerGame\ServerGame\SeaBattle\Source.cpp(216,31): warning C4309: =: усечение константного значения
-C:\Users\lutsi\ServerGame\ServerGame\SeaBattle\Source.cpp(219,31): warning C4309: =: усечение константного значения
-C:\Users\lutsi\ServerGame\ServerGame\SeaBattle\Source.cpp(465): warning C4715: checkAround: значение возвращается не при всех путях выполнения
-C:\Users\lutsi\ServerGame\ServerGame\SeaBattle\Source.cpp(799): warning C4715: checkLifeOrDieShip: значение возвращается не при всех путях выполнения
+C:\Users\lutsi\ServerGame\ServerGame\SeaBattle\Source.cpp(246,27): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\lutsi\ServerGame\ServerGame\SeaBattle\Source.cpp(249,31): warning C4309: =: усечение константного значения
+C:\Users\lutsi\ServerGame\ServerGame\SeaBattle\Source.cpp(252,31): warning C4309: =: усечение константного значения
+C:\Users\lutsi\ServerGame\ServerGame\SeaBattle\Source.cpp(255,31): warning C4309: =: усечение константного значения
+C:\Users\lutsi\ServerGame\ServerGame\SeaBattle\Source.cpp(261,31): warning C4309: =: усечение константного значения
+C:\Users\lutsi\ServerGame\ServerGame\SeaBattle\Source.cpp(264,31): warning C4309: =: усечение константного значения
+C:\Users\lutsi\ServerGame\ServerGame\SeaBattle\Source.cpp(267,31): warning C4309: =: усечение константного значения
+C:\Users\lutsi\ServerGame\ServerGame\SeaBattle\Source.cpp(270,31): warning C4309: =: усечение константного значения
+C:\Users\lutsi\ServerGame\ServerGame\SeaBattle\Source.cpp(273,31): warning C4309: =: усечение константного значения
+C:\Users\lutsi\ServerGame\ServerGame\SeaBattle\Source.cpp(276,31): warning C4309: =: усечение константного значения
+C:\Users\lutsi\ServerGame\ServerGame\SeaBattle\Source.cpp(300,23): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\lutsi\ServerGame\ServerGame\SeaBattle\Source.cpp(303,23): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\lutsi\ServerGame\ServerGame\SeaBattle\Source.cpp(306,23): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\lutsi\ServerGame\ServerGame\SeaBattle\Source.cpp(350,23): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\lutsi\ServerGame\ServerGame\SeaBattle\Source.cpp(356,23): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\lutsi\ServerGame\ServerGame\SeaBattle\Source.cpp(360,23): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\lutsi\ServerGame\ServerGame\SeaBattle\Source.cpp(582): warning C4715: checkAround: значение возвращается не при всех путях выполнения
+C:\Users\lutsi\ServerGame\ServerGame\SeaBattle\Source.cpp(914): warning C4715: checkLifeOrDieShip: значение возвращается не при всех путях выполнения
   SeaBattle.vcxproj -> C:\Users\lutsi\ServerGame\ServerGame\Debug\SeaBattle.exe
