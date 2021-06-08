@@ -8,6 +8,7 @@
 #include <time.h>
 #include <stdlib.h>
 #include "Registration.h"
+#include "Menu.h"
 
 void SendData2Server(int clientId, char* data)
 {
@@ -38,7 +39,7 @@ void SendData2Server(int clientId, char* data)
 		closesocket(client);
 		return;
 	}
-	printf("Sent: %s\nbytes: %d\n\n", message, ret);
+	/*printf("Sent: %s\nbytes: %d\n\n", message, ret);*/
 	ret = SOCKET_ERROR;
 	int i = 0;
 	while (ret == SOCKET_ERROR)
@@ -59,7 +60,7 @@ void SendData2Server(int clientId, char* data)
 			continue;
 		}
 		//вывод на экран количества полученных байт и сообщение
-		printf("Recieve: %s\n bytes: %d\n", message, ret);
+		/*printf("Recieve: %s\n bytes: %d\n", message, ret);*/
 	}
 	closesocket(client);
 }
@@ -78,11 +79,12 @@ int main()
 	while (1) {
 		printf("Are you registered?(Y/N)");
 		scanf("%c",&isRegistered);
-		if (isRegistered == 'Y') {
+
+		if (isRegistered == 'Y' || isRegistered == 'y') {
 			login(id);
 			break;
 		}
-		else if (isRegistered == 'N') {
+		else if (isRegistered == 'N' || isRegistered == 'n') {
 			registration(id);
 			break;
 		}
@@ -90,9 +92,8 @@ int main()
 			printf("Invalid character, try again\n");
 		}
 	}
-	Sleep(rand() % 10);
+	menu(id);
 	printf("Session is closed\n");
-	Sleep(1000);
 	return 0;
 }
 

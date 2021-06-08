@@ -13,9 +13,10 @@ void login(int clientId) {
 	scanf("%s",login);
 	printf("Password: ");
 	scanf("%s", password);
-	
+	strcat(login, " ");
+	strcat(login, password);
+	strcat(login, " -log");
 	SendData2Server(clientId, login);
-	SendData2Server(clientId, password);
 }
 
 void registration(int clientId) {
@@ -33,7 +34,8 @@ void registration(int clientId) {
 		registration(clientId);
 	}
 
-
+	strcat(login, " ");
+	strcat(login, password);
+	strcat(login, " -reg");
 	SendData2Server(clientId, login);
-	SendData2Server(clientId, password);
 }
