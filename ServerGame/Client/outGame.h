@@ -93,7 +93,7 @@ void welcomePage();
 void drawField(unsigned char player1Field[][10], unsigned char player2Field[][10], int yourNumberShips, int rivalsNumberShips);
 int checkAround(unsigned char gameField[][10], int beginLetterCh, int beginFigure, int endLetterCh, int endFigure, int sizeOfShip, char flag);
 void generationShips(int sizeOfShip, unsigned char gameField[][10], unsigned char gameField2[][10], int yourNumberShips, int rivalsNumberShips);
-void shootToShip(unsigned char gameFieldRival[][10], int* y, int* x, int* counterForShips);
+int shootToShip(unsigned char gameFieldRival[][10]);
 int checkLifeOrDieShip(char direct, int  y, int x, unsigned char gameFieldRival[][10]);
 void makeDie(unsigned char gameFieldRival[][10], int y, int x);
 

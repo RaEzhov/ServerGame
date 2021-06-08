@@ -130,7 +130,11 @@ void drawField(unsigned char player1Field[][10], unsigned char player2Field[][10
         for (int j = 0; j < GAME_FIELD_LINES; j++) {
 
             //printf(" ");
-            printf("%c", player2Field[i - 2][j]);
+            if (player2Field[i - 2][j] != SHIP){
+                printf ("%c", player2Field[i - 2][j]);
+            } else{
+                printf (" ");
+            }
         }
 
         printf("%c\n", standartFieldForm[i][46]);
@@ -565,43 +569,45 @@ void makeDie(unsigned char gameFieldRival[][10], int y, int x) {
     }
 }
 
-void shootToShip(unsigned char gameFieldRival[][10], int* y, int* x, int* counterForShips) {
+int shootToShip(unsigned char gameFieldRival[][10]) {
     int check = 0;
 
     printf("Enter the coordinates for the shot:\n");
-    char arr[4] = { 0 };
+    char arr[BUFFER] = { 0 };
     scanf("%s", arr);
-
+    int x, y;
     if (arr[0] >= 'A' && arr[0] <= 'J') {
-        *x = (int)arr[0] - 'A';
+        x = (int)arr[0] - 'A';
     } else if (arr[0] >= 'a' && arr[0] <= 'j') {
-        *x = (int)arr[0] - 'a';
+        x = (int)arr[0] - 'a';
     } else {
         printf("Unable to shoot. Please enter another coordinates\n");
-        shootToShip(gameFieldRival, y, x, counterForShips);
-        return;
+        shootToShip(gameFieldRival);
+        return 0;
     }
-    *y = (int)arr[1] - '0';
+    y = (int)arr[1] - '0';
 
 
-    if (*y > 9 || *y < 0 || *x > 9 || *x < 0) {
+    if (y > 9 || y < 0 || x > 9 || x < 0) {
         printf("Unable to shoot. Please enter another coordinates\n");
-        shootToShip(gameFieldRival, y, x, counterForShips);
-        return;
+        shootToShip(gameFieldRival);
+        return 0;
     }
 
-    if (gameFieldRival[*y][*x] == EMPTY) {
-        gameFieldRival[*y][*x] = SHOT;
-        return;
+    if (gameFieldRival[y][x] == EMPTY) {
+        gameFieldRival[y][x] = SHOT;
+        return 0;
     }
-    if (gameFieldRival[*y][*x] == SHIP) {
-        gameFieldRival[*y][*x] = INJURED;
-        check = checkLifeOrDieShip('u', *(y)-1, *x, gameFieldRival) + checkLifeOrDieShip('r', *y, *(x)+1, gameFieldRival) + checkLifeOrDieShip('d', *(y)+1, *x, gameFieldRival) + checkLifeOrDieShip('l', *y, *(x)-1, gameFieldRival);
+    if (gameFieldRival[y][x] == SHIP) {
+        gameFieldRival[y][x] = INJURED;
+        check = checkLifeOrDieShip('u', (y)-1, x, gameFieldRival) + checkLifeOrDieShip('r', y, (x)+1, gameFieldRival) + checkLifeOrDieShip('d', (y)+1, x, gameFieldRival) + checkLifeOrDieShip('l', y, (x)-1, gameFieldRival);
         if (check == 0) {
-            (*counterForShips)--;
-            makeDie(gameFieldRival, *y, *x);
+            
+            makeDie(gameFieldRival, y, x);
+            return 1;
         }
     }
+    return 0;
 }
 
 int checkLifeOrDieShip(char direct, int  y, int x, unsigned char gameFieldRival[][10]) {
