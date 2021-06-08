@@ -101,19 +101,6 @@ void* ClientStart(void* param) {
 		pthread_mutex_unlock(&mutex);
 		return (void*)1;
 	}*/
-	for (int i = 0; i < GAME_FIELD_LINES; i++) {
-		for (int j = 0; j < GAME_FIELD_LINES; j++) {
-			printf("%c", field1[i][j]);
-		}
-		printf("\n");
-	}
-	printf("\n");
-	for (int i = 0; i < GAME_FIELD_LINES; i++) {
-		for (int j = 0; j < GAME_FIELD_LINES; j++) {
-			printf("%c", field2[i][j]);
-		}
-		printf("\n");
-	}
 	sendField (client1, field2);
 	sendField (client2, field1);
 	
@@ -195,10 +182,23 @@ int CreateServer(){
 		{
 			printf("Error accept client\n");
 			continue;
-		} else
-		{
+		} else {
 			printf("Client is accepted\n");
 		}
+
+		/*
+			pthread_t mythread;
+			int status = pthread_create(&mythread, NULL, logInAndMenu, (void*)client);
+			pthread_detach(mythread);
+		*/
+		//=========logInAndMenu========
+		// кидаем всех клиентов в подтверждение логина и пароля (поток)
+		// -- (клиент в меню выбирает действие)
+		// если новая игра, то организовать запуск игры по двое для всех подряд кто выбрал ng
+		// если список друзей, то найти соответствие в файле с друзьями этого пользователя и попытаться их соединить
+		// если рейтинг, то тянем из файла уровень и предлагаем играть с тем же уровнем 
+		//=============================
+
 		status++;
 		if (status % 2 == 0) {
 			clients.player1 = client1;
