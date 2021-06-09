@@ -24,7 +24,7 @@
 #define BUFFER       100
 
 typedef enum {
-    EMPTY = 32,
+    EMPTY = 249,
     INJURED = 176,
     KILL = 88,
     SHIP = 178,
@@ -38,7 +38,7 @@ typedef enum {
     EXIT
 }eGameStatus;
 
-char gameName[SIZE_CONSOLE + 2] =
+const char gameName[SIZE_CONSOLE + 2] =
 "____________________GAME BATTLESHIP____________________";
 
 char border[SIZE_CONSOLE + 2] =
@@ -283,12 +283,14 @@ void setDefaultField() {
 }
 
 void welcomePage() {
-    
-    for (int i = 0; i <= 21; i++) {
+    for (int i = 0; i < 256; i++){
+        printf ("%c ", i);
+    }
+    /*for (int i = 0; i <= 21; i++) {
         printf("%s\n", ship[i]);
     }
     printf("%s\n", smile[0]);
-    printf("%s", smile[1]);
+    printf("%s", smile[1]);*/
     _getch();
     return;
 }

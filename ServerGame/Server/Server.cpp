@@ -5,6 +5,7 @@
 #include <winsock.h>
 #include <stdio.h>
 #include <Windows.h>
+#include <conio.h>
 
 struct players {
 	SOCKET player1;
@@ -39,7 +40,7 @@ void getField (SOCKET s, unsigned char field[][GAME_FIELD_LINES]){
 		exit (10);
 	}
 	if (ret < 0){
-		printf ("Can't resieve dsta.\n");
+		printf ("Can't resieve data.\n");
 		closesocket (s);
 		exit (10);
 	}
@@ -52,7 +53,7 @@ void getData (SOCKET s, char buf[], int size){
 		exit (10);
 	}
 	if (ret < 0){
-		printf ("Can't resieve dsta.\n");
+		printf ("Can't resieve data.\n");
 		closesocket (s);
 		exit (10);
 	}
@@ -69,6 +70,9 @@ void shot (SOCKET shooter, SOCKET target, unsigned char fieldTarget[][GAME_FIELD
 	(buf[0] == 1) ? (*shipsPlayer)-- : 1;
 	sendField (target, fieldTarget);
 	sendData (target, buf, 1);
+	if (buf[0] == 2 || buf[0] == 1){
+		shot (shooter, target, fieldTarget, shipsPlayer);
+	}
 }
 
 void* ClientStart(void* param) {
@@ -112,6 +116,7 @@ void* ClientStart(void* param) {
 		}
 		shot (client2, client1, field1, &ships1Player);
 	}
+	_getch ();
 	/*
 	ret = recv(client, recieve, 1024, 0);
 	if (!ret || ret == SOCKET_ERROR)
@@ -155,7 +160,7 @@ int CreateServer(){
 	server = socket(AF_INET, SOCK_STREAM, IPPROTO_IP);
 	if (server == INVALID_SOCKET)
 	{
-		printf("Error create server\n");
+		printf("Error create server.\n");
 		return 1;
 	}
 	localaddr.sin_addr.S_un.S_addr = htonl(INADDR_ANY);
@@ -163,10 +168,10 @@ int CreateServer(){
 	localaddr.sin_port = htons(5510);//port number is for example, must be more than 1024
 	if (bind(server, (struct sockaddr*)&localaddr, sizeof(localaddr)) == SOCKET_ERROR)
 	{
-		printf("Can't start server\n");
+		printf("Can't start server.\n");
 		return 2;
 	} else {
-		printf("Server is started\n");
+		printf("Server is started.\n");
 	}
 	listen(server, 50);//50 клиентов в очереди могут стоять
 	pthread_mutex_init(&mutex, NULL);
@@ -180,10 +185,10 @@ int CreateServer(){
 
 		if (client1 == INVALID_SOCKET)
 		{
-			printf("Error accept client\n");
+			printf("Error accept client.\n");
 			continue;
 		} else {
-			printf("Client is accepted\n");
+			printf("Client is accepted.\n");
 		}
 
 		/*
@@ -211,7 +216,7 @@ int CreateServer(){
 	}
 	pthread_mutex_destroy(&mutex_file);
 	pthread_mutex_destroy(&mutex);
-	printf("Server is stopped\n");
+	printf("Server is stopped.\n");
 	closesocket(server);
 	return 0;
 }
@@ -220,7 +225,7 @@ int main(){
 	WSADATA wsd;
 	if (WSAStartup(MAKEWORD(1, 1), &wsd) == 0)
 	{
-		printf("Connected to socket lib\n");
+		printf("Connected to socket lib.\n");
 	} else {
 		return 1;
 	}
