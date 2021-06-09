@@ -1,0 +1,13 @@
+﻿  Source.cpp
+D:\Projects\ServerGame\ServerGame\SeaBattle\Source.cpp(195,31): warning C4309: =: усечение константного значения
+D:\Projects\ServerGame\ServerGame\SeaBattle\Source.cpp(198,31): warning C4309: =: усечение константного значения
+D:\Projects\ServerGame\ServerGame\SeaBattle\Source.cpp(201,31): warning C4309: =: усечение константного значения
+D:\Projects\ServerGame\ServerGame\SeaBattle\Source.cpp(207,31): warning C4309: =: усечение константного значения
+D:\Projects\ServerGame\ServerGame\SeaBattle\Source.cpp(210,31): warning C4309: =: усечение константного значения
+D:\Projects\ServerGame\ServerGame\SeaBattle\Source.cpp(213,31): warning C4309: =: усечение константного значения
+D:\Projects\ServerGame\ServerGame\SeaBattle\Source.cpp(216,31): warning C4309: =: усечение константного значения
+D:\Projects\ServerGame\ServerGame\SeaBattle\Source.cpp(219,31): warning C4309: =: усечение константного значения
+D:\Projects\ServerGame\ServerGame\SeaBattle\Source.cpp(222,31): warning C4309: =: усечение константного значения
+D:\Projects\ServerGame\ServerGame\SeaBattle\Source.cpp(468): warning C4715: checkAround: значение возвращается не при всех путях выполнения
+D:\Projects\ServerGame\ServerGame\SeaBattle\Source.cpp(802): warning C4715: checkLifeOrDieShip: значение возвращается не при всех путях выполнения
+  SeaBattle.vcxproj -> D:\Projects\ServerGame\ServerGame\x64\Debug\SeaBattle.exe
