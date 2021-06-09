@@ -78,12 +78,12 @@ void playGame(){
 			opponentFileld[i][j] = EMPTY;
 		}
 	}
-	int counterYourShips = COUNT_OF_SHIPS-9;
-	int counterOpponentShips = COUNT_OF_SHIPS-9;
+	int counterYourShips = COUNT_OF_SHIPS;
+	int counterOpponentShips = COUNT_OF_SHIPS;
 	char message[1024];
 
 	int genShips[COUNT_OF_SHIPS] = {4,3,3,2,2,2,1,1,1,1};
-	for(int i = 0; i < 1; i++){ 
+	for(int i = 0; i < COUNT_OF_SHIPS; i++){ 
 		drawField(playerField, opponentFileld, counterYourShips, counterOpponentShips);
 		generationShips(genShips[i], playerField, opponentFileld, counterYourShips, counterOpponentShips);
 	}
