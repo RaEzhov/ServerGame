@@ -71,7 +71,7 @@ const char ship[][SIZE_CONSOLE + 1] = {
            "  X_________________XX   A SUBMARINE,THEN IT IS KILLED.",
            "  X___XX__XX__XX___XX    YOUR MAIN GOAL IS TO DESTROY  ",
            "  XX_____________XX     ALL ENEMY SHIPS. HAPPY BATTLES!",
-           "   XX__________XX                                      ",
+           "   XX__________XX   EXAMPLE OF ENTER COORDS: A3B3 OR d2",
            "     XXXXXXXXXX                                        "
 };
 

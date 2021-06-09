@@ -1,0 +1,2 @@
+D:\Projects\ServerGame\ServerGame\SeaBattle\Debug\SeaBattle.exe
+D:\Projects\ServerGame\ServerGame\SeaBattle\Debug\SeaBattle.pdb

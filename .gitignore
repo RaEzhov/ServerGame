@@ -1,0 +1,10 @@
+ServerGame/Debug/*
+ServerGame/.vs/*
+ServerGame/Client/*.vcxproj.filters
+ServerGame/Client/Debug/*
+ServerGame/Client/x64/*
+ServerGame/Server/Debug/*
+ServerGame/Server/x64/*
+ServerGame/x64/*
+!ServerGame/Debug/Server.exe
+!ServerGame/Debug/Client.exe

@@ -1,6 +1,7 @@
 #pragma comment(lib, "ws2_32.lib")
 #define _CRT_SECURE_NO_WARNINGS
 #include <winsock.h>
+#include <conio.h>
 #include <stdio.h>
 #include <time.h>
 #include <stdlib.h>
@@ -32,7 +33,7 @@ void getField(SOCKET s, unsigned char field[][GAME_FIELD_LINES]) {
 	}
 	if (ret < 0)
 	{
-		printf("Can't resieve dsta.\n");
+		printf("Can't resieve data.\n");
 		closesocket(s);
 		exit(10);
 	}
@@ -44,7 +45,7 @@ void getData (SOCKET s, char buf[], int size){
 		exit (10);
 	}
 	if (ret < 0){
-		printf ("Can't resieve dsta.\n");
+		printf ("Can't resieve data.\n");
 		closesocket (s);
 		exit (10);
 	}
@@ -55,7 +56,7 @@ void playGame(){
 	SOCKET client;
 	client = socket(AF_INET, SOCK_STREAM, IPPROTO_IP);
 	if(client == INVALID_SOCKET){
-		printf("Error create socket\n");
+		printf("Error create socket.\n");
 		return;
 	}
 	struct sockaddr_in server;
@@ -63,7 +64,7 @@ void playGame(){
 	server.sin_port = htons(5510); //the same as in server
 	server.sin_addr.S_un.S_addr = inet_addr("127.0.0.1"); //special look-up address
 	if(connect(client, (struct sockaddr*)&server, sizeof(server)) == SOCKET_ERROR){
-		printf("Can't connect to server\n");
+		printf("Can't connect to server.\n");
 		closesocket(client);
 		return;
 	}
@@ -87,8 +88,8 @@ void playGame(){
 		generationShips(genShips[i], playerField, opponentFileld, counterYourShips, counterOpponentShips);
 	}
 	drawField(playerField, opponentFileld, counterYourShips, counterOpponentShips);
-
 	sendField(client, playerField);
+	printf ("Wait while opponent place his ships...\n");
 	getField(client, opponentFileld);
 	drawField (playerField, opponentFileld, counterYourShips, counterOpponentShips);
 	int shotRes = 0;
@@ -100,7 +101,7 @@ void playGame(){
 			sendData (client, message, 1);
 			drawField (playerField, opponentFileld, counterYourShips, counterOpponentShips);
 		} else{
-			printf ("Eexpect the opponent to move...\n");
+			printf ("Expect the opponent to move...\n");
 			getField (client, playerField);
 			getData (client, message, 1);
 			shotRes = message[0];
@@ -109,41 +110,18 @@ void playGame(){
 		}
 	}
 	printf ("The end!\n");
-	/*
-	printf("Sent: %s\nbytes: %d\n\n", message, ret);
-	ret = SOCKET_ERROR;
-	int i = 0;
-	while (ret == SOCKET_ERROR)
-	{
-		//полчение ответа
-		ret = recv(client, message, 1024, 0);
-		//обработка ошибок
-		if (ret == 0 || ret == WSAECONNRESET)
-		{
-			printf("Connection closed\n");
-			break;
-		}
-		if (ret < 0)
-		{
-			//printf("Can't resieve message\n");
-			//closesocket(client);
-			//return;
-			continue;
-		}
-		//вывод на экран количества полученных байт и сообщение
-		printf("Recieve: %s\n bytes: %d\n", message, ret);
-	}*/
+	_getch ();
 	closesocket(client);
 }
 
 int main(){
 	WSADATA wsd;
 	if(WSAStartup(MAKEWORD(1, 1), &wsd) != 0){
-		printf("Can't connect to socket lib");
+		printf("Can't connect to socket lib.");
 		return 1;
 	}
 	playGame();
-	printf("Session is closed\n");
+	printf("Session is closed.\n");
 	Sleep(1000);
 	return 0;
 }
