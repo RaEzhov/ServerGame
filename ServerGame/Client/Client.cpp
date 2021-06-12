@@ -9,6 +9,12 @@
 #include <stdlib.h>
 #include "Registration.h"
 #include "Menu.h"
+#include <Windows.h>
+
+#define SIZE_CONSOLE 55
+#define ANCHOR_HEIGHT 23
+#define ANCHOR_WEIGHT 37
+#define STR_SIZE 50
 
 void SendData2Server(int clientId, char* data)
 {
@@ -65,6 +71,32 @@ void SendData2Server(int clientId, char* data)
 	closesocket(client);
 }
 
+void setDefaultFieldMenu() {
+
+	CONSOLE_FONT_INFOEX cfi;
+	cfi.cbSize = sizeof(cfi);
+	cfi.nFont = 6;
+	cfi.dwFontSize.X = 20;                   // Width of each character in the font
+	cfi.dwFontSize.Y = 20;                  // Height
+	cfi.FontFamily = BALTIC_CHARSET;
+	cfi.FontWeight = FW_NORMAL;
+	//std::wcscpy(cfi.FaceName, L"Consolas"); // Choose your font
+	SetCurrentConsoleFontEx(GetStdHandle(STD_OUTPUT_HANDLE), FALSE, &cfi);
+
+	system("mode con cols=55 lines=28");
+	HWND consoleWindow = GetConsoleWindow();
+	SetWindowLong(consoleWindow, GWL_STYLE, GetWindowLong(consoleWindow, GWL_STYLE) & ~WS_MAXIMIZEBOX & ~WS_SIZEBOX);
+}
+
+void printStringInCenter(char* text) {
+	int width = SIZE_CONSOLE;
+	int padding = (width - strlen(text)) / 2;
+	for (int i = 0; i < padding; i++) {
+		printf(" ");
+	}
+	printf("%s\n",text);
+}
+
 int main()
 {
 	WSADATA wsd;
@@ -73,11 +105,47 @@ int main()
 		printf("Can't connect to socket lib");
 		return 1;
 	}
+
+
+	char anchor[][SIZE_CONSOLE + 1] = {
+		"                                  -*+*+:.              ",
+		"                                 :-    .+.             ",
+		"                                 *.     :-             ",
+		"                                 .*::*::-              ",
+		"                                  +=*+=+-              ",
+		"                                  .:***.               ",
+		"                                  .*-.:-               ",
+		"                        .-:........**+*........--.     ",
+		"Welcome to Sea Battle!  *=*++++++++%*+*++++++++=**-    ",
+		"                         .:.       -*+:        .-      ",
+		"                                   -*+:                ",
+		"                                   -*+:                ",
+		"                                   -*+*                ",
+		"                                   -*+*                ",
+		"                                   -*+*                ",
+		"                   :+-             -***.            .*-",
+		"                    ==*-.          :***.          .+**.",
+		"                    .===::.        :***.        -++++- ",
+		"                      *==*-.      .**:*-      .-*++*.  ",
+		"                       .+=***:-..-:****+:..-:*+++*-    ",
+		"                         .*==+++++++=++++++++++*-      ",
+		"                            .:=====%%+======*-         ",
+		"                                 .:+%=+*-.             "
+	};
+
+
+	setDefaultFieldMenu();
 	srand(time(NULL));
 	int id = rand() % 10000;
-	char isRegistered = {0};
+	char isRegistered = { 0 };
+	char tempStr[STR_SIZE] = "";
 	while (1) {
-		printf("Are you registered?(Y/N)");
+		for (int i = 0; i < ANCHOR_HEIGHT;  i++) {
+				printf("%s\n",anchor[i]);
+		}
+		printf("\n\n\n");
+		strcpy(tempStr,"Are you registered?(Y/N)");
+		printStringInCenter(tempStr);
 		scanf("%c",&isRegistered);
 
 		if (isRegistered == 'Y' || isRegistered == 'y') {
@@ -89,7 +157,9 @@ int main()
 			break;
 		}
 		else {
-			printf("Invalid character, try again\n");
+			strcpy(tempStr, "Invalid character, try again\n");
+			printStringInCenter(tempStr);
+			Sleep(2000);
 		}
 	}
 	menu(id);

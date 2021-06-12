@@ -9,9 +9,13 @@
 void login(int clientId) {
 	char login[INPUT_STR_SIZE] = { 0 };
 	char password[INPUT_STR_SIZE] = { 0 };
-	printf("Login: ");
+	char tempStr[INPUT_STR_SIZE] = { 0 };
+
+	strcpy(tempStr, "Login: ");
+	printStringInCenter(tempStr);
 	scanf("%s",login);
-	printf("Password: ");
+	strcpy(tempStr, "Password: ");
+	printStringInCenter(tempStr);
 	scanf("%s", password);
 	strcat(login, " ");
 	strcat(login, password);
@@ -23,11 +27,15 @@ void registration(int clientId) {
 	char login[INPUT_STR_SIZE] = { 0 };
 	char password[INPUT_STR_SIZE] = { 0 };
 	char verify_password[INPUT_STR_SIZE] = { 0 };
-	printf("Login: ");
+	char tempStr[INPUT_STR_SIZE] = { 0 };
+	strcpy(tempStr, "Login: ");
+	printStringInCenter(tempStr);
 	scanf("%s", login);
-	printf("Password: ");
+	strcpy(tempStr, "Password: ");
+	printStringInCenter(tempStr);
 	scanf("%s", password);
-	printf("Repeat your password, please: ");
+	strcpy(tempStr, "Repeat your password, please: ");
+	printStringInCenter(tempStr);
 	scanf("%s", verify_password);
 	if (strcmp(password, verify_password)) {
 		printf("Passwords don't match, try again");

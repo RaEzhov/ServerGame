@@ -6,29 +6,46 @@
 #include "Registration.h"
 #include "Client.h"
 
+
 void newGame(int clientId) {
-	printf("Game executed:...\n");
+	char tempStr[INPUT_STR_SIZE];
+	strcpy(tempStr, "Game executed:...\n");
+	printStringInCenter(tempStr);
 	char newGameFlag[INPUT_STR_SIZE] = "-ng";
 	SendData2Server(clientId,newGameFlag);
 }
 void showFriends(int clientId) {
-	printf("Friens:\n");
+	char tempStr[INPUT_STR_SIZE];
+	strcpy(tempStr, "Friens:\n");
+	printStringInCenter(tempStr);
 	char friendsFlag[INPUT_STR_SIZE] = "-frds";
 	SendData2Server(clientId, friendsFlag);
 }
 void showRatings(int clientId) {
-	printf("Ratings:\n");
+	char tempStr[INPUT_STR_SIZE];
+	strcpy(tempStr, "Ratings:\n");
+	printStringInCenter(tempStr);
 	char ratingsFlag[INPUT_STR_SIZE] = "-rtgs";
 	SendData2Server(clientId, ratingsFlag);
 }
 void exit() {
-	printf("Good bye!\n");
+	char tempStr[INPUT_STR_SIZE];
+	strcpy(tempStr, "Good bye!\n");
+	printStringInCenter(tempStr);
 }
 void menuList() {
-	printf("1. New game\n");
-	printf("2. Friends\n");
-	printf("3. Ratings\n");
-	printf("4. Exit\n");
+	char tempStr[INPUT_STR_SIZE];
+	printf("\n\n");
+	strcpy(tempStr, "MENU\n");
+	printStringInCenter(tempStr);
+	strcpy(tempStr, "1. New game\n");
+	printStringInCenter(tempStr);
+	strcpy(tempStr, "2. Friends\n");
+	printStringInCenter(tempStr);
+	strcpy(tempStr, "3. Ratings\n");
+	printStringInCenter(tempStr);
+	strcpy(tempStr, "4. Exit\n");
+	printStringInCenter(tempStr);
 }
 
 void menu(int clientId) {
