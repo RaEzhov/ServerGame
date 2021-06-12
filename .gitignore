@@ -1,0 +1,5 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/ServerGame/.vs/ServerGame/v16/Solution.VC.db-wal
