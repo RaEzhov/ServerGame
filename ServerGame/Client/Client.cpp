@@ -123,16 +123,10 @@ int main(){
 		scanf("%c",&isRegistered);
 		system ("cls");
 		if (isRegistered == 'Y' || isRegistered == 'y') {
-			/*pthread_t signInThread;
-			int status = pthread_create(&signInThread, NULL, login, (void*)(client_socket));
-			pthread_join(signInThread, value);*/
 			login((void*)(client_socket));
 			invChar = 0;
 		}
 		else if (isRegistered == 'N' || isRegistered == 'n') {
-			/*pthread_t signInThread;
-			int status = pthread_create(&signInThread, NULL, registration, (void*)(client_socket));
-			pthread_join(signInThread, value);*/
 			registration((void*)(client_socket));
 			invChar = 0;
 		} 

@@ -153,7 +153,7 @@ void menu (SOCKET client){
 	int input;
 	printf ("Input number, please: ");
 	scanf ("%d", &input);
-	/*system ("cls");*/
+	system ("cls");
 	switch (input){
 	case 1:
 		newGame (client);
