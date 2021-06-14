@@ -19,67 +19,6 @@
 #define STR_SIZE             50
 #define INPUT_STR_SIZE       50
 
-void playGame(){
-	SOCKET client;
-	client = socket(AF_INET, SOCK_STREAM, IPPROTO_IP);
-	if(client == INVALID_SOCKET){
-		printf("Error create socket.\n");
-		return;
-	}
-	struct sockaddr_in server;
-	server.sin_family = AF_INET;
-	server.sin_port = htons(5510); //the same as in server
-	server.sin_addr.S_un.S_addr = inet_addr("127.0.0.1"); //special look-up address
-	if(connect(client, (struct sockaddr*)&server, sizeof(server)) == SOCKET_ERROR){
-		printf("Can't connect to server.\n");
-		closesocket(client);
-		return;
-	}
-	//connect - ok
-	welcomePage();
-	unsigned char playerField[GAME_FIELD_LINES][GAME_FIELD_LINES] = {0};
-	unsigned char opponentFileld[GAME_FIELD_LINES][GAME_FIELD_LINES] = {0};
-	for(int i = 0; i < GAME_FIELD_LINES; i++){
-		for(int j = 0; j < GAME_FIELD_LINES; j++){
-			playerField[i][j] = EMPTY;
-			opponentFileld[i][j] = EMPTY;
-		}
-	}
-	int counterYourShips = COUNT_OF_SHIPS;
-	int counterOpponentShips = COUNT_OF_SHIPS;
-	char message[1024];
-
-	int genShips[COUNT_OF_SHIPS] = {4,3,3,2,2,2,1,1,1,1};
-	for(int i = 0; i < COUNT_OF_SHIPS; i++){ 
-		drawField(playerField, opponentFileld, counterYourShips, counterOpponentShips);
-		generationShips(genShips[i], playerField, opponentFileld, counterYourShips, counterOpponentShips);
-	}
-	drawField(playerField, opponentFileld, counterYourShips, counterOpponentShips);
-	sendField(client, playerField);
-	printf ("Wait while opponent place his ships...\n");
-	getField(client, opponentFileld);
-	drawField (playerField, opponentFileld, counterYourShips, counterOpponentShips);
-	int shotRes = 0;
-	while (counterYourShips){
-		getData (client, message, 1);
-		if (message[0] == 's'){
-			message[0] = shootToShip (opponentFileld);
-			sendField (client, opponentFileld);
-			sendData (client, message, 1);
-			drawField (playerField, opponentFileld, counterYourShips, counterOpponentShips);
-		} else{
-			printf ("Expect the opponent to move...\n");
-			getField (client, playerField);
-			getData (client, message, 1);
-			shotRes = message[0];
-			counterYourShips -= shotRes;
-			drawField (playerField, opponentFileld, counterYourShips, counterOpponentShips);
-		}
-	}
-	printf ("The end!\n");
-	shutdown (client,2);
-	closesocket(client);
-}
 
 int main(){
 	setDefaultField ();
@@ -138,7 +77,6 @@ int main(){
 			Sleep(1000);
 		}
 	}
-	playGame();
 	printf("SESSION IS CLOSED.\n");
 	Sleep(1000);
 	return 0;

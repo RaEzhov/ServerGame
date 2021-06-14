@@ -5,7 +5,54 @@
 #include <winsock.h>
 #define INPUT_STR_SIZE 50
 #include "Menu.h"
+#include "outGame.h"
 #include "../commonFunctions.h"
+
+void playGame (SOCKET client){
+	welcomePage ();
+	unsigned char playerField[GAME_FIELD_LINES][GAME_FIELD_LINES] = {0};
+	unsigned char opponentFileld[GAME_FIELD_LINES][GAME_FIELD_LINES] = {0};
+	for (int i = 0; i < GAME_FIELD_LINES; i++){
+		for (int j = 0; j < GAME_FIELD_LINES; j++){
+			playerField[i][j] = EMPTY;
+			opponentFileld[i][j] = EMPTY;
+		}
+	}
+	int counterYourShips = COUNT_OF_SHIPS;
+	int counterOpponentShips = COUNT_OF_SHIPS;
+	char message[1024];
+
+	int genShips[COUNT_OF_SHIPS] = {4,3,3,2,2,2,1,1,1,1};
+	for (int i = 0; i < COUNT_OF_SHIPS; i++){
+		drawField (playerField, opponentFileld, counterYourShips, counterOpponentShips);
+		generationShips (genShips[i], playerField, opponentFileld, counterYourShips, counterOpponentShips);
+	}
+	drawField (playerField, opponentFileld, counterYourShips, counterOpponentShips);
+	sendField (client, playerField);
+	printf ("Wait while opponent place his ships...\n");
+	getField (client, opponentFileld);
+	drawField (playerField, opponentFileld, counterYourShips, counterOpponentShips);
+	int shotRes = 0;
+	while (counterYourShips){
+		getData (client, message, 1);
+		if (message[0] == 's'){
+			message[0] = shootToShip (opponentFileld);
+			sendField (client, opponentFileld);
+			sendData (client, message, 1);
+			drawField (playerField, opponentFileld, counterYourShips, counterOpponentShips);
+		} else{
+			printf ("Expect the opponent to move...\n");
+			getField (client, playerField);
+			getData (client, message, 1);
+			shotRes = message[0];
+			counterYourShips -= shotRes;
+			drawField (playerField, opponentFileld, counterYourShips, counterOpponentShips);
+		}
+	}
+	printf ("The end!\n");
+	shutdown (client, 2);
+	closesocket (client);
+}
 
 
 void* login (void* params){
@@ -75,7 +122,6 @@ void* registration (void* params){
 		printf ("Passwords don't match, try again\n");
 		registration (params);
 	}
-
 	strcat (login, " ");
 	strcat (login, password);
 	strcat (login, " (reg)");
@@ -107,15 +153,18 @@ void newGame (SOCKET client){
 	char tempStr[INPUT_STR_SIZE];
 	strcpy (tempStr, "Game executed:...\n");
 	printStringInCenter (tempStr);
-	char newGameFlag[INPUT_STR_SIZE] = " (ng)";
+	char newGameFlag[INPUT_STR_SIZE] = "(ng)";
 	sendData (client, newGameFlag, strlen(newGameFlag));
+	printf ("WHAIT FOR AN OPPONENT...\n");
+	getData (client, tempStr, INPUT_STR_SIZE);
+	playGame (client);
 }
 
 void showFriends (SOCKET client){
 	char tempStr[INPUT_STR_SIZE];
 	strcpy (tempStr, "Friens:\n");
 	printStringInCenter (tempStr);
-	char friendsFlag[INPUT_STR_SIZE] = " (frds)";
+	char friendsFlag[INPUT_STR_SIZE] = "(frds)";
 	sendData (client, friendsFlag, strlen(friendsFlag));
 }
 
@@ -123,7 +172,7 @@ void showRatings (SOCKET client){
 	char tempStr[INPUT_STR_SIZE];
 	strcpy (tempStr, "Ratings:\n");
 	printStringInCenter (tempStr);
-	char ratingsFlag[INPUT_STR_SIZE] = " (rtgs)";
+	char ratingsFlag[INPUT_STR_SIZE] = "(rtgs)";
 	sendData (client, ratingsFlag, strlen(ratingsFlag));
 }
 
@@ -149,6 +198,7 @@ void menuList (){
 }
 
 void menu (SOCKET client){
+	system ("cls");
 	menuList ();
 	int input;
 	printf ("Input number, please: ");

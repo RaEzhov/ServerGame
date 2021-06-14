@@ -20,11 +20,15 @@ void shot (SOCKET shooter, SOCKET target, unsigned char fieldTarget[][GAME_FIELD
 }
 
 void* startGame (void* param){
-	SOCKET client1 = ((struct players*)param)->player1;
-	SOCKET client2 = ((struct players*)param)->player2;
+	struct players* clients = (struct players*)(param);
+	SOCKET client1 = clients->player1;
+	SOCKET client2 = clients->player2;
 	char recieve[1024], transmit[1024];
 	unsigned char field1[10][10] = {0};
 	unsigned char field2[10][10] = {0};
+	char msg[] = "connectionOK";
+	sendData (client1, msg, strlen (msg));
+	sendData (client2, msg, strlen (msg));
 
 	getField (client1, field1);
 	getField (client2, field2);

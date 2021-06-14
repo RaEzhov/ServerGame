@@ -1,3 +1,5 @@
 ﻿  Client.cpp
-D:\Projects\ServerGame\ServerGame\Client\Client.cpp(74,12): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
+D:\Projects\ServerGame\ServerGame\Client\Client.cpp(49,12): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
+  Menu.cpp
+  Создание кода...
   Client.vcxproj -> D:\Projects\ServerGame\ServerGame\Debug\Client.exe

@@ -1,3 +1,2 @@
-borya qwerty
-lab tt1
-abc def
+qwerty qwerty
+login password

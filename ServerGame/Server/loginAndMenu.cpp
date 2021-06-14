@@ -7,6 +7,7 @@
 #include "../commonFunctions.h"
 #include "loginAndMenu.h"
 #include "game.h"
+#include "queue.h"
 
 pthread_mutex_t mutex;
 pthread_mutex_t mutex_file;
@@ -43,11 +44,38 @@ void registrateClient (char* login, char* password){
 	fclose (DB);
 }
 
+struct queue q = {{0},0,-1,0};
+struct players gamePair;
+
 void menuServ (SOCKET client){
 	char menuCommand[INPUT_STR_SIZE] = {0};
 	getData (client, menuCommand, INPUT_STR_SIZE);
 	if (!strcmp (menuCommand, "(ng)")){
-
+		insert (client, &q);
+		if (size (&q) == 2){
+			int client1 = removeData (&q);
+			int client2 = removeData (&q);
+			if (client1 < 0 && client2 >= 0){
+				shutdown (client1, 2);
+				closesocket (client1);
+				insert (client2, &q);
+			} else if (client1 >= 0 && client2 < 0){
+				shutdown (client2, 2);
+				closesocket (client2);
+				insert (client1, &q);
+			} else if (client1 < 0 && client2 < 0){
+				shutdown (client2, 2);
+				closesocket (client2);
+				shutdown (client1, 2);
+				closesocket (client1);
+			} else{
+				gamePair.player1 = client1;
+				gamePair.player2 = client2;
+				pthread_t game;
+				int ret = pthread_create (&game, NULL, startGame, (void*)(&gamePair));
+				pthread_detach (game);
+			}
+		}
 	}
 }
 

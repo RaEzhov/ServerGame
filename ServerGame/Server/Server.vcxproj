@@ -144,6 +144,7 @@
     <ClCompile Include="..\commonFunctions.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="loginAndMenu.cpp" />
+    <ClCompile Include="queue.cpp" />
     <ClCompile Include="Server.cpp">
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Default</CompileAs>
     </ClCompile>
@@ -152,6 +153,7 @@
     <ClInclude Include="..\commonFunctions.h" />
     <ClInclude Include="loginAndMenu.h" />
     <ClInclude Include="game.h" />
+    <ClInclude Include="queue.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
