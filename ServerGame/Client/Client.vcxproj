@@ -143,10 +143,18 @@
     <ClCompile Include="Client.cpp">
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Default</CompileAs>
     </ClCompile>
-    <ClCompile Include="outGame.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="outGame.h" />
+    
+    <ClCompile Include="Menu.cpp" />
+	<ClCompile Include="outGame.cpp" />
+    <ClCompile Include="Registration.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Client.h" />
+    <ClInclude Include="Menu.h" />
+	<ClInclude Include="outGame.h" />
+    <ClInclude Include="Registration.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
