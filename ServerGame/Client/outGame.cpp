@@ -1,9 +1,9 @@
 #define _CRT_SECURE_NO_WARNINGS
-#include "outGame.h"
 #include <stdio.h>
 #define _WIN32_WINNT 0x0500
 #include <Windows.h>
 #include <conio.h>
+#include "outGame.h"
 
 void setDefaultField() {
 
@@ -177,7 +177,6 @@ void swap(int* a, int* b) {
     *b = c;
 }
 
-
 int checkAround(unsigned char gameField[][10], int beginLetterCh, int beginFigure, int endLetterCh, int endFigure, int sizeOfShip, char flag) {
 
     int* checkX = NULL;
@@ -326,9 +325,7 @@ int checkAround(unsigned char gameField[][10], int beginLetterCh, int beginFigur
     }
 }
 
-void readCoordinates4(int* beginLetterCh, int* beginFigure, int* endLetterCh, int* endFigure, 
-                      unsigned char gameField[][GAME_FIELD_LINES], unsigned char gameField2[][GAME_FIELD_LINES], 
-                      int numShips1, int numShips2){
+void readCoordinates4(int* beginLetterCh, int* beginFigure, int* endLetterCh, int* endFigure, unsigned char gameField[][GAME_FIELD_LINES], unsigned char gameField2[][GAME_FIELD_LINES], int numShips1, int numShips2){
     char arr[BUFFER] = { 0 };
     scanf("%s", arr);
     if (arr[0] >= 'A' && arr[0] <= 'Z') {
@@ -356,9 +353,7 @@ void readCoordinates4(int* beginLetterCh, int* beginFigure, int* endLetterCh, in
     return;
 }
 
-void readCoordinates2(int* beginLetterCh, int* beginFigure, 
-                      unsigned char gameField[][GAME_FIELD_LINES], unsigned char gameField2[][GAME_FIELD_LINES],
-                      int numShips1, int numShips2) {
+void readCoordinates2(int* beginLetterCh, int* beginFigure, unsigned char gameField[][GAME_FIELD_LINES], unsigned char gameField2[][GAME_FIELD_LINES],int numShips1, int numShips2) {
     char arr[BUFFER] = { 0 };
     scanf("%s", arr);
     if (arr[0] >= 'A' && arr[0] <= 'Z') {

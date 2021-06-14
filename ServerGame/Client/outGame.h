@@ -4,16 +4,6 @@
 #define FIELD_LINES 13
 #define GAME_FIELD_LINES 10
 #define COUNT_OF_SHIPS 10
-#define PLAYER_1 0
-#define PLAYER_2 ~PLAYER_1
-
-#define KEY_ENTER   13
-#define KEY_PRESSED 0xE0
-#define KEY_ENTER   13
-#define KEY_UP      72
-#define KEY_RIGHT   77
-#define KEY_DOWN    80
-#define KEY_LEFT    75
 #define SHOT        249 
 #define SIZE_CONSOLE 55
 #define BUFFER       100
@@ -26,12 +16,31 @@ typedef enum {
     MISS = 249
 }eMoveStatus;
 
-typedef enum {
-    INIT = 0,
-    DRAW,
-    PROCESSING,
-    EXIT
-}eGameStatus;
+const char anchor[][SIZE_CONSOLE + 1] = {
+    "                                  -*+*+:.              ",
+    "                                 :-    .+.             ",
+    "                                 *.     :-             ",
+    "                                 .*::*::-              ",
+    "                                  +=*+=+-              ",
+    "                                  .:***.               ",
+    "                                  .*-.:-               ",
+    "                        .-:........**+*........--.     ",
+    " WELCOME TO BATTLESHIP! *=*++++++++%*+*++++++++=**-    ",
+    "                         .:.       -*+:        .-      ",
+    "                                   -*+:                ",
+    "                                   -*+:                ",
+    "                                   -*+*                ",
+    "                                   -*+*                ",
+    "                                   -*+*                ",
+    "                   :+-             -***.            .*-",
+    "                    ==*-.          :***.          .+**.",
+    "                    .===::.        :***.        -++++- ",
+    "                      *==*-.      .**:*-      .-*++*.  ",
+    "    TO PLAY LOG IN:    .+=***:-..-:****+:..-:*+++*-    ",
+    "                         .*==+++++++=++++++++++*-      ",
+    "                            .:=====%%+======*-         ",
+    "                                 .:+%=+*-.             "
+};
 
 const char gameName[SIZE_CONSOLE + 2] =
 "____________________GAME BATTLESHIP____________________";

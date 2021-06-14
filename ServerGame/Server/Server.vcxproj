@@ -141,12 +141,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\commonFunctions.cpp" />
     <ClCompile Include="game.cpp" />
+    <ClCompile Include="loginAndMenu.cpp" />
     <ClCompile Include="Server.cpp">
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Default</CompileAs>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\commonFunctions.h" />
+    <ClInclude Include="loginAndMenu.h" />
     <ClInclude Include="game.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
