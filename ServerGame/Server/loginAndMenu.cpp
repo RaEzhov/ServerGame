@@ -12,6 +12,8 @@
 pthread_mutex_t mutex;
 pthread_mutex_t mutex_file;
 
+struct usersOnServer users = {0};
+
 int searchInDB (char* login, char* password){
 	printf ("searching %s with password %s\n", login, password);
 	FILE* DB = fopen ("DATABASE.txt", "r");
@@ -47,14 +49,36 @@ void registrateClient (char* login, char* password){
 struct queue q = {{0},0,-1,0};
 struct players gamePair;
 
+int getLoginFromUsers (SOCKET client){
+	for (int i = 0; i < users.amount; i++){
+		if (users.sock[i] == client){
+			return i;
+		}
+	}
+	return -1;
+}
+
+int addClientToUsers (SOCKET client, char login[]){
+	for (int i = 0; i < users.amount; i++){
+		if (!strcmp (users.login[i], login)){
+			return -1;
+		}
+	}
+	strcpy (users.login[users.amount], login);
+	users.sock[users.amount] = client;
+	users.amount++;
+	printf ("\nUser %s online.\n", login);
+	return 0;
+}
+
 void menuServ (SOCKET client){
 	char menuCommand[INPUT_STR_SIZE] = {0};
 	getData (client, menuCommand, INPUT_STR_SIZE);
 	if (!strcmp (menuCommand, "(ng)")){
 		insert (client, &q);
 		if (size (&q) == 2){
-			int client1 = removeData (&q);
-			int client2 = removeData (&q);
+			SOCKET client1 = removeData (&q);
+			SOCKET client2 = removeData (&q);
 			if (client1 < 0 && client2 >= 0){
 				shutdown (client1, 2);
 				closesocket (client1);
@@ -71,6 +95,18 @@ void menuServ (SOCKET client){
 			} else{
 				gamePair.player1 = client1;
 				gamePair.player2 = client2;
+				int clnt = getLoginFromUsers (client1);
+				if (clnt == -1){
+					return;
+				}
+				strcpy (gamePair.login1, users.login[clnt]);
+
+				clnt = getLoginFromUsers (client2);
+				if (clnt == -1){
+					return;
+				}
+				strcpy (gamePair.login2, users.login[clnt]);
+
 				pthread_t game;
 				int ret = pthread_create (&game, NULL, startGame, (void*)(&gamePair));
 				pthread_detach (game);
@@ -90,12 +126,15 @@ void* logInAndMenu (void* params){
 	char loginError[] = "login-er";
 
 	ret = getData (client, recieve, INPUT_STR_SIZE);
+	if (ret < 0){
+		return (void*)0;
+	}
 	printf ("%d", ret);
 	recieve[ret] = '\0';
 	sscanf (recieve, "%s%s%s", login, password, flag);
 	
-	pthread_mutex_lock (&mutex);
-	pthread_mutex_lock (&mutex_file);
+	//pthread_mutex_lock (&mutex);
+	//pthread_mutex_lock (&mutex_file);
 	printf ("\n%s\n", recieve);
 	fprintf (stdout, "accepted data: ");
 	printf ("%s\n", recieve);
@@ -103,15 +142,18 @@ void* logInAndMenu (void* params){
 	printf ("%s\n", flag);
 
 	if (!strcmp (flag, "(log)")){
-		if (loginClient (login, password)){
+		if (loginClient (login, password) && addClientToUsers(client,login) == 0){
 			sendData (client, loginOk, strlen (loginOk));
 		} else{
-			while (!loginClient (login, password)){
+			while (!loginClient (login, password) || addClientToUsers (client, login) == -1){
 				printf ("not found %s\n", login);
 				sendData (client, loginError, strlen (loginError));
 				char recieve[INPUT_STR_SIZE] = {0};
 				int ret;
 				ret = getData (client, recieve, INPUT_STR_SIZE);
+				if (ret < 0){
+					return (void*)0;
+				}
 				recieve[ret] = '\0';
 
 				sscanf (recieve, "%s%s%s", login, password, flag);
@@ -127,14 +169,16 @@ void* logInAndMenu (void* params){
 		menuServ (client);
 	} else if (!strcmp (flag, "(reg)")){
 		registrateClient (login, password);
+		addClientToUsers (client, login);
 		menuServ (client);
 	}
-	pthread_mutex_unlock (&mutex_file);
-	pthread_mutex_unlock (&mutex);
+	//pthread_mutex_unlock (&mutex_file);
+	//pthread_mutex_unlock (&mutex);
 	return (void*)0;
 }
 
 int CreateServer (){
+	users.amount = 0;
 	SOCKET server, client;
 	struct sockaddr_in localaddr, clientaddr;
 	int size;
@@ -167,27 +211,10 @@ int CreateServer (){
 		} else{
 			printf ("Client is accepted.\n");
 		}
-		//=========logInAndMenu========
-		// кидаем всех клиентов в подтверждение логина и пароля (поток)
-		// -- (клиент в меню выбирает действие)
-		// если новая игра, то организовать запуск игры по двое для всех подряд кто выбрал ng
-		// если список друзей, то найти соответствие в файле с друзьями этого пользователя и попытаться их соединить
-		// если рейтинг, то тянем из файла уровень и предлагаем играть с тем же уровнем 
-		//=============================
 		pthread_t newClient;
 		printf ("socket: %d", client);
 		int status = pthread_create (&newClient, NULL, logInAndMenu, (void*)client);
 		pthread_detach (newClient);
-
-		/*tatus++;
-		if (status % 2 == 0){
-			clients.player1 = client1;
-			clients.player2 = client2;
-			pthread_t mythread;
-			int status = pthread_create (&mythread, NULL, startGame, (void*)(&clients));
-			pthread_detach (mythread);
-		}
-		client2 = client1;*/
 	}
 	pthread_mutex_destroy (&mutex_file);
 	pthread_mutex_destroy (&mutex);

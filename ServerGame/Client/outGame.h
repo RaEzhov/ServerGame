@@ -99,7 +99,7 @@ const int checkX1[8] = { -1,  0,  1, 1, 1, 0, -1, -1 };
 
 void setDefaultField();
 void welcomePage();
-void drawField(unsigned char player1Field[][10], unsigned char player2Field[][10], int yourNumberShips, int rivalsNumberShips);
+void drawField(unsigned char player1Field[][10], unsigned char player2Field[][10], int yourNumberShips, int rivalsNumberShips, char player1Name[], char player2Name[]);
 int checkAround(unsigned char gameField[][10], int beginLetterCh, int beginFigure, int endLetterCh, int endFigure, int sizeOfShip, char flag);
 void generationShips(int sizeOfShip, unsigned char gameField[][10], unsigned char gameField2[][10], int yourNumberShips, int rivalsNumberShips);
 int shootToShip(unsigned char gameFieldRival[][10]);

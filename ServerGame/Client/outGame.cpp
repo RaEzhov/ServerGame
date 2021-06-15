@@ -5,6 +5,9 @@
 #include <conio.h>
 #include "outGame.h"
 
+extern char myLogin[BUFFER / 2];
+extern char opLogin[BUFFER / 2];
+
 void setDefaultField() {
 
     CONSOLE_FONT_INFOEX cfi;
@@ -28,14 +31,12 @@ void welcomePage() {
     }
     printf("%s\n", smile[0]);
     printf("%s", smile[1]);
-    _getch();
+    
     return;
 }
 
-void drawField(unsigned char player1Field[][10], unsigned char player2Field[][10], int yourNumberShips, int rivalsNumberShips) {  //доделать: функция должна по-разному рисовать поле для разных игроков
-   //names of players
-    char userName1[] = "VASYA";
-    char userName2[] = "PETYA";
+void drawField(unsigned char player1Field[][10], unsigned char player2Field[][10], int yourNumberShips, int rivalsNumberShips, char player1Name[], char player2Name[]) {
+    
     char standartFieldForm[][SIZE_CONSOLE] =
     {
     "       ABCDEFGHIJ       SHIPS       ABCDEFGHIJ ",
@@ -94,14 +95,14 @@ void drawField(unsigned char player1Field[][10], unsigned char player2Field[][10
     system("cls");
     printf("%s", gameName);
     printf("\n");
-    for (int i = 0; i < strlen(userName1); i++) {
-        printf("%c", userName1[i]);
+    for (int i = 0; i < strlen(player1Name); i++) {
+        printf("%c", player1Name[i]);
     }
-    for (int i = 0; i < (SIZE_CONSOLE - strlen(userName2) - strlen(userName1)); i++) {
+    for (int i = 0; i < (SIZE_CONSOLE - strlen(player2Name) - strlen(player1Name)); i++) {
         printf(" ");
     }
-    for (int i = 0; i < strlen(userName2); i++) {
-        printf("%c", userName2[i]);
+    for (int i = 0; i < strlen(player2Name); i++) {
+        printf("%c", player2Name[i]);
     }
     printf("\n");
     printf("\n");
@@ -328,16 +329,16 @@ int checkAround(unsigned char gameField[][10], int beginLetterCh, int beginFigur
 void readCoordinates4(int* beginLetterCh, int* beginFigure, int* endLetterCh, int* endFigure, unsigned char gameField[][GAME_FIELD_LINES], unsigned char gameField2[][GAME_FIELD_LINES], int numShips1, int numShips2){
     char arr[BUFFER] = { 0 };
     scanf("%s", arr);
-    if (arr[0] >= 'A' && arr[0] <= 'Z') {
+    if (arr[0] >= 'A' && arr[0] <= 'J') {
         *beginLetterCh = (int)arr[0] - 'A';
-    } else if (arr[0] >= 'a' && arr[0] <= 'z') {
+    } else if (arr[0] >= 'a' && arr[0] <= 'j') {
         *beginLetterCh = (int)arr[0] - 'a';
     }
     *beginFigure = (int)arr[1] - '0';
 
-    if (arr[2] >= 'A' && arr[2] <= 'Z') {
+    if (arr[2] >= 'A' && arr[2] <= 'J') {
         *endLetterCh = (int)arr[2] - 'A';
-    } else if (arr[2] >= 'a' && arr[2] <= 'z') {
+    } else if (arr[2] >= 'a' && arr[2] <= 'j') {
         *endLetterCh = (int)arr[2] - 'a';
     }
     *endFigure = (int)arr[3] - '0';
@@ -346,7 +347,7 @@ void readCoordinates4(int* beginLetterCh, int* beginFigure, int* endLetterCh, in
 
     if (*beginLetterCh > 9 || *beginLetterCh < 0 || *beginFigure > 9 || *beginFigure < 0 ||
         *endLetterCh > 9 || *endLetterCh < 0 || *endFigure > 9 || *endFigure < 0) {
-        drawField (gameField, gameField2, numShips1, numShips2);
+        drawField (gameField, gameField2, numShips1, numShips2, myLogin, opLogin);
         printf("Unable to place the ship. Enter another coordinates\n");
         readCoordinates4(beginLetterCh, beginFigure, endLetterCh, endFigure, gameField, gameField2, numShips1, numShips2);
     }
@@ -356,15 +357,15 @@ void readCoordinates4(int* beginLetterCh, int* beginFigure, int* endLetterCh, in
 void readCoordinates2(int* beginLetterCh, int* beginFigure, unsigned char gameField[][GAME_FIELD_LINES], unsigned char gameField2[][GAME_FIELD_LINES],int numShips1, int numShips2) {
     char arr[BUFFER] = { 0 };
     scanf("%s", arr);
-    if (arr[0] >= 'A' && arr[0] <= 'Z') {
+    if (arr[0] >= 'A' && arr[0] <= 'J') {
         *beginLetterCh = (int)arr[0] - 'A';
-    } else if (arr[0] >= 'a' && arr[0] <= 'z') {
+    } else if (arr[0] >= 'a' && arr[0] <= 'j') {
         *beginLetterCh = (int)arr[0] - 'a';
     }
     *beginFigure = (int)arr[1] - '0';
 
     if (*beginLetterCh > 9 || *beginLetterCh < 0 || *beginFigure > 9 || *beginFigure < 0) {
-        drawField (gameField, gameField2, numShips1, numShips2);
+        drawField (gameField, gameField2, numShips1, numShips2, myLogin, opLogin);
         printf("Unable to place the ship. Enter another coordinates\n");
         readCoordinates2(beginLetterCh, beginFigure, gameField, gameField2, numShips1, numShips2);
     }
@@ -401,7 +402,7 @@ void generationShips(int sizeOfShip, unsigned char gameField[][10], unsigned cha
                     return;
 
                 } else {
-                    drawField (gameField, gameField2, 10, rivalsNumberShips);
+                    drawField (gameField, gameField2, 10, rivalsNumberShips, myLogin, opLogin);
                     printf("Unable to place the ship. Enter another coordinates\n");
                     generationShips(4, gameField, gameField2, yourNumberShips, rivalsNumberShips);
                     return;
@@ -416,14 +417,14 @@ void generationShips(int sizeOfShip, unsigned char gameField[][10], unsigned cha
                     return;
 
                 } else {
-                    drawField (gameField, gameField2, 10, rivalsNumberShips);
+                    drawField (gameField, gameField2, 10, rivalsNumberShips, myLogin, opLogin);
                     printf("Unable to place the ship. Enter another coordinates\n");
                     generationShips(4, gameField, gameField2, yourNumberShips, rivalsNumberShips);
                     return;
                 }
             }
         } else {
-            drawField (gameField, gameField2, 10, rivalsNumberShips);
+            drawField (gameField, gameField2, 10, rivalsNumberShips, myLogin, opLogin);
             printf("Unable to place the ship. Enter another coordinates\n");
             generationShips(4, gameField, gameField2, yourNumberShips, rivalsNumberShips);
             return;
@@ -452,7 +453,7 @@ void generationShips(int sizeOfShip, unsigned char gameField[][10], unsigned cha
                     return;
 
                 } else {
-                    drawField (gameField, gameField2, 10, rivalsNumberShips);
+                    drawField (gameField, gameField2, 10, rivalsNumberShips, myLogin, opLogin);
                     printf("Unable to place the ship. Enter another coordinates\n");
                     generationShips(3, gameField, gameField2, yourNumberShips, rivalsNumberShips);
                     return;
@@ -466,14 +467,14 @@ void generationShips(int sizeOfShip, unsigned char gameField[][10], unsigned cha
 
 
                 } else {
-                    drawField (gameField, gameField2, 10, rivalsNumberShips);
+                    drawField (gameField, gameField2, 10, rivalsNumberShips, myLogin, opLogin);
                     printf("Unable to place the ship. Enter another coordinates\n");
                     generationShips(3, gameField, gameField2, yourNumberShips, rivalsNumberShips);
                     return;
                 }
             }
         } else {
-            drawField (gameField, gameField2, 10, rivalsNumberShips);
+            drawField (gameField, gameField2, 10, rivalsNumberShips, myLogin, opLogin);
             printf("Unable to place the ship. Enter another coordinates\n");
             generationShips(3, gameField, gameField2, yourNumberShips, rivalsNumberShips);
             return;
@@ -501,7 +502,7 @@ void generationShips(int sizeOfShip, unsigned char gameField[][10], unsigned cha
                     return;
 
                 } else {
-                    drawField (gameField, gameField2, 10, rivalsNumberShips);
+                    drawField (gameField, gameField2, 10, rivalsNumberShips, myLogin, opLogin);
                     printf("Unable to place the ship. Enter another coordinates\n");
                     generationShips(2, gameField, gameField2, yourNumberShips, rivalsNumberShips);
                     return;
@@ -514,14 +515,14 @@ void generationShips(int sizeOfShip, unsigned char gameField[][10], unsigned cha
                     return;
 
                 } else {
-                    drawField (gameField, gameField2, 10, rivalsNumberShips);
+                    drawField (gameField, gameField2, 10, rivalsNumberShips, myLogin, opLogin);
                     printf("Unable to place the ship. Enter another coordinates\n");
                     generationShips(2, gameField, gameField2, yourNumberShips, rivalsNumberShips);
                     return;
                 }
             }
         } else {
-            drawField (gameField, gameField2, 10, rivalsNumberShips);
+            drawField (gameField, gameField2, 10, rivalsNumberShips, myLogin, opLogin);
             printf("Unable to place the ship. Enter another coordinates\n");
             generationShips(2, gameField, gameField2, yourNumberShips, rivalsNumberShips);
             return;
@@ -537,7 +538,7 @@ void generationShips(int sizeOfShip, unsigned char gameField[][10], unsigned cha
             gameField[beginFigure][beginLetterCh] = SHIP;
             return;
         } else {
-            drawField (gameField, gameField2, 10, rivalsNumberShips);
+            drawField (gameField, gameField2, 10, rivalsNumberShips, myLogin, opLogin);
             printf("Unable to place the ship. Enter another coordinates\n");
             generationShips(1, gameField, gameField2, yourNumberShips, rivalsNumberShips);
             return;
@@ -576,21 +577,18 @@ int shootToShip (unsigned char gameFieldRival[][10]){
         x = (int)arr[0] - 'a';
     } else{
         printf ("Unable to shoot. Please enter another coordinates.\n");
-        shootToShip (gameFieldRival);
-        //return 0;
+        return shootToShip (gameFieldRival);
     }
     y = (int)arr[1] - '0';
 
 
     if (y > 9 || y < 0 || x > 9 || x < 0){
         printf ("Unable to shoot. Please enter another coordinates.\n");
-        shootToShip (gameFieldRival);
-        //return 0;
+        return shootToShip (gameFieldRival);
     }
     if (gameFieldRival[y][x] != EMPTY && gameFieldRival[y][x] != SHIP){
         printf ("You have already shot at this point. choose another.\n");
-        shootToShip (gameFieldRival);
-        //return 0;
+        return shootToShip (gameFieldRival);
     }
 
     if (gameFieldRival[y][x] == EMPTY) {  //мимо

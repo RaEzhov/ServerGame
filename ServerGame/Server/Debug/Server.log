@@ -1,2 +1,5 @@
-﻿  Server.cpp
+﻿  game.cpp
+D:\Projects\ServerGame\ServerGame\Server\game.cpp(45,22): warning C4101: transmit: неиспользованная локальная переменная
+D:\Projects\ServerGame\ServerGame\Server\game.cpp(45,7): warning C4101: recieve: неиспользованная локальная переменная
+D:\Projects\ServerGame\ServerGame\Server\game.cpp(27): warning C4715: shot: значение возвращается не при всех путях выполнения
   Server.vcxproj -> D:\Projects\ServerGame\ServerGame\Debug\Server.exe

@@ -8,10 +8,12 @@
 struct players{
 	SOCKET player1;
 	SOCKET player2;
+	char login1[BUFFER / 2];
+	char login2[BUFFER / 2];
 };
 
 void* startGame (void* param);
 
-void shot (SOCKET shooter, SOCKET target, unsigned char fieldTarget[][GAME_FIELD_LINES], int* shipsPlayer);
+int shot (SOCKET shooter, SOCKET target, unsigned char fieldTarget[][GAME_FIELD_LINES], int* shipsPlayer);
 
 #endif//GAME_H

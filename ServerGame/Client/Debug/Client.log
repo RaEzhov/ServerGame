@@ -1,5 +1,21 @@
-﻿  Client.cpp
-D:\Projects\ServerGame\ServerGame\Client\Client.cpp(49,12): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
-  Menu.cpp
-  Создание кода...
+﻿  outGame.cpp
+D:\Projects\ServerGame\ServerGame\Client\outGame.cpp(57,27): warning C4018: <: несоответствие типов со знаком и без знака
+D:\Projects\ServerGame\ServerGame\Client\outGame.cpp(60,43): warning C4309: =: усечение константного значения
+D:\Projects\ServerGame\ServerGame\Client\outGame.cpp(63,43): warning C4309: =: усечение константного значения
+D:\Projects\ServerGame\ServerGame\Client\outGame.cpp(66,43): warning C4309: =: усечение константного значения
+D:\Projects\ServerGame\ServerGame\Client\outGame.cpp(72,43): warning C4309: =: усечение константного значения
+D:\Projects\ServerGame\ServerGame\Client\outGame.cpp(75,43): warning C4309: =: усечение константного значения
+D:\Projects\ServerGame\ServerGame\Client\outGame.cpp(78,43): warning C4309: =: усечение константного значения
+D:\Projects\ServerGame\ServerGame\Client\outGame.cpp(81,43): warning C4309: =: усечение константного значения
+D:\Projects\ServerGame\ServerGame\Client\outGame.cpp(84,43): warning C4309: =: усечение константного значения
+D:\Projects\ServerGame\ServerGame\Client\outGame.cpp(87,43): warning C4309: =: усечение константного значения
+D:\Projects\ServerGame\ServerGame\Client\outGame.cpp(98,23): warning C4018: <: несоответствие типов со знаком и без знака
+D:\Projects\ServerGame\ServerGame\Client\outGame.cpp(101,23): warning C4018: <: несоответствие типов со знаком и без знака
+D:\Projects\ServerGame\ServerGame\Client\outGame.cpp(104,23): warning C4018: <: несоответствие типов со знаком и без знака
+D:\Projects\ServerGame\ServerGame\Client\outGame.cpp(147,23): warning C4018: <: несоответствие типов со знаком и без знака
+D:\Projects\ServerGame\ServerGame\Client\outGame.cpp(153,23): warning C4018: <: несоответствие типов со знаком и без знака
+D:\Projects\ServerGame\ServerGame\Client\outGame.cpp(157,23): warning C4018: <: несоответствие типов со знаком и без знака
+D:\Projects\ServerGame\ServerGame\Client\outGame.cpp(327): warning C4715: checkAround: значение возвращается не при всех путях выполнения
+D:\Projects\ServerGame\ServerGame\Client\outGame.cpp(609): warning C4715: shootToShip: значение возвращается не при всех путях выполнения
+D:\Projects\ServerGame\ServerGame\Client\outGame.cpp(643): warning C4715: checkLifeOrDieShip: значение возвращается не при всех путях выполнения
   Client.vcxproj -> D:\Projects\ServerGame\ServerGame\Debug\Client.exe

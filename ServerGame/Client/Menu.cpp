@@ -3,13 +3,28 @@
 #include <stdlib.h>
 #include <string.h>
 #include <winsock.h>
+#include <conio.h>
 #define INPUT_STR_SIZE 50
 #include "Menu.h"
 #include "outGame.h"
 #include "../commonFunctions.h"
 
+char myLogin[INPUT_STR_SIZE] = {0};
+char opLogin[INPUT_STR_SIZE] = {0};
+
 void playGame (SOCKET client){
 	welcomePage ();
+	int res = getData (client, myLogin, INPUT_STR_SIZE);
+	if (res < 0 ){
+		return;
+	}
+	myLogin[res] = '\0';
+	res = getData (client, opLogin, INPUT_STR_SIZE);
+	if (res < 0){
+		return;
+	}
+	opLogin[res] = '\0';
+	_getch ();
 	unsigned char playerField[GAME_FIELD_LINES][GAME_FIELD_LINES] = {0};
 	unsigned char opponentFileld[GAME_FIELD_LINES][GAME_FIELD_LINES] = {0};
 	for (int i = 0; i < GAME_FIELD_LINES; i++){
@@ -24,32 +39,38 @@ void playGame (SOCKET client){
 
 	int genShips[COUNT_OF_SHIPS] = {4,3,3,2,2,2,1,1,1,1};
 	for (int i = 0; i < COUNT_OF_SHIPS; i++){
-		drawField (playerField, opponentFileld, counterYourShips, counterOpponentShips);
+		drawField (playerField, opponentFileld, counterYourShips, counterOpponentShips, myLogin, opLogin);
 		generationShips (genShips[i], playerField, opponentFileld, counterYourShips, counterOpponentShips);
 	}
-	drawField (playerField, opponentFileld, counterYourShips, counterOpponentShips);
+	drawField (playerField, opponentFileld, counterYourShips, counterOpponentShips, myLogin, opLogin);
 	sendField (client, playerField);
-	printf ("Wait while opponent place his ships...\n");
+	printf ("WAIT WHILE OPPONENT PLACE HIS  SHIPS...\n");
 	getField (client, opponentFileld);
-	drawField (playerField, opponentFileld, counterYourShips, counterOpponentShips);
+	drawField (playerField, opponentFileld, counterYourShips, counterOpponentShips, myLogin, opLogin);
 	int shotRes = 0;
-	while (counterYourShips){
+	while (counterYourShips && counterOpponentShips){
 		getData (client, message, 1);
 		if (message[0] == 's'){
 			message[0] = shootToShip (opponentFileld);
 			sendField (client, opponentFileld);
 			sendData (client, message, 1);
-			drawField (playerField, opponentFileld, counterYourShips, counterOpponentShips);
+			if (message[0] == 1){
+				counterOpponentShips--;
+			}
+			drawField (playerField, opponentFileld, counterYourShips, counterOpponentShips, myLogin, opLogin);
 		} else{
-			printf ("Expect the opponent to move...\n");
+			printf ("EXPECT YOUR OPPONENT TO MOVE...\n");
 			getField (client, playerField);
 			getData (client, message, 1);
-			shotRes = message[0];
-			counterYourShips -= shotRes;
-			drawField (playerField, opponentFileld, counterYourShips, counterOpponentShips);
+			if (message[0] == 1){
+				counterYourShips--;
+			}
+			drawField (playerField, opponentFileld, counterYourShips, counterOpponentShips, myLogin, opLogin);
 		}
 	}
-	printf ("The end!\n");
+	system ("cls");
+	printf ("\n\n\n\n\n                       THE  END!\n\n\n                 PRESS ANY KEY TO EXIT.\n\n\n");
+	_getch ();
 	shutdown (client, 2);
 	closesocket (client);
 }
@@ -72,23 +93,24 @@ void* login (void* params){
 	strcat (login, " (log)");
 	int ret = 0;
 	ret = sendData (client, login, strlen(login));
-	printf ("\n%d\n", ret);
 	char checkLogin[INPUT_STR_SIZE] = {0};
 	getData (client, checkLogin, INPUT_STR_SIZE);
 	if (!strcmp (checkLogin, "login-ok")){
 		system ("cls");
+		sscanf (login, "%s", myLogin);
+		myLogin[strlen (myLogin)] = '\0';
 		menu (client);
 		return (void*)0;
 	}
 
 	while (strcmp (checkLogin, "login-ok")){
 		system ("cls");
-		printf ("Invalid username or password, please try again\n");
+		printf ("\n\n\n INVALID USERNAME OR PASSWORD, PLEASE TRY AGAIN.\n");
 		printf ("\n\n\n\n\n\n\n");
-		strcpy (tempStr, "Login: ");
+		strcpy (tempStr, "LOGIN: ");
 		printStringInCenter (tempStr);
 		scanf ("%s", login);
-		strcpy (tempStr, "Password: ");
+		strcpy (tempStr, "PASSWORD: ");
 		printStringInCenter (tempStr);
 		scanf ("%s", password);
 		strcat (login, " ");
@@ -98,6 +120,8 @@ void* login (void* params){
 		getData (client, checkLogin, INPUT_STR_SIZE);
 	}
 	system ("cls");
+	sscanf (login, "%s", myLogin);
+	myLogin[strlen (myLogin)] = '\0';
 	menu (client);
 	return (void*)0;
 }
@@ -126,7 +150,8 @@ void* registration (void* params){
 	strcat (login, password);
 	strcat (login, " (reg)");
 	int ret = sendData (client, login, strlen (login));
-	printf ("\n%d\n", ret);
+	sscanf (login, "%s", myLogin);
+	myLogin[strlen (myLogin)] = '\0';
 	menu (client);
 	return SUCCESS;
 }
@@ -151,12 +176,13 @@ void printStringWithPaddingLeft (char* text, int padding){
 
 void newGame (SOCKET client){
 	char tempStr[INPUT_STR_SIZE];
-	strcpy (tempStr, "Game executed:...\n");
+	strcpy (tempStr, "GAME EXECUTED:...\n");
 	printStringInCenter (tempStr);
 	char newGameFlag[INPUT_STR_SIZE] = "(ng)";
 	sendData (client, newGameFlag, strlen(newGameFlag));
 	printf ("WHAIT FOR AN OPPONENT...\n");
 	getData (client, tempStr, INPUT_STR_SIZE);
+	system ("cls");
 	playGame (client);
 }
 
@@ -199,9 +225,10 @@ void menuList (){
 
 void menu (SOCKET client){
 	system ("cls");
+	printf ("\nHELLO, %s!\n", myLogin);
 	menuList ();
 	int input;
-	printf ("Input number, please: ");
+	printf ("INPUT NUMBER, PLEASE: ");
 	scanf ("%d", &input);
 	system ("cls");
 	switch (input){
